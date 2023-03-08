@@ -187,6 +187,11 @@
             console.log(browserType);
 
 
+            //Obtener Datetime 
+
+            var currentDate = new Date();
+
+            var currentDateTime = currentDate.toLocaleString();
 
             //Guardar valores 
 
@@ -195,6 +200,9 @@
             save("ip", ipAddress, 0);
 
             save("browser", browserType, 0);
+
+            save("datetime",currentDateTime,0);
+
 
         }
 
@@ -206,7 +214,7 @@
 
     
 
-    function save(param, value,state,ip,browser) {
+    function save(param, value,state,ip,datetime,browser) {
 
 
 
